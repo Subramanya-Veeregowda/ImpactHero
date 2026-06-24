@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { Mail, Lock, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
@@ -35,6 +36,21 @@ export const Login = () => {
     }
   };
 
+  const shouldReduceMotion = useReducedMotion();
+
+  const formVariants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 10 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.3 } }
+  };
+
   return (
     <div>
       <div className="mb-8">
@@ -42,9 +58,15 @@ export const Login = () => {
         <p className="text-text-secondary">Enter your credentials to sign in to your account</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <motion.form 
+        onSubmit={handleSubmit} 
+        className="space-y-6"
+        variants={formVariants}
+        initial="hidden"
+        animate="show"
+      >
         <div className="space-y-4">
-          <div className="relative">
+          <motion.div variants={itemVariants} className="relative">
             <Input
               id="email"
               type="email"
@@ -59,9 +81,9 @@ export const Login = () => {
             <div className="absolute top-[34px] left-0 pl-3 flex items-center pointer-events-none">
               <Mail className="h-5 w-5 text-text-secondary" />
             </div>
-          </div>
+          </motion.div>
 
-          <div className="relative">
+          <motion.div variants={itemVariants} className="relative">
             <div className="flex items-center justify-between mb-1">
               <label htmlFor="password" className="text-sm font-medium text-text-primary">
                 Password
@@ -100,11 +122,12 @@ export const Login = () => {
                 )}
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        <Button
-          type="submit"
+        <motion.div variants={itemVariants}>
+          <Button
+            type="submit"
           disabled={isSubmitting}
           fullWidth
           variant="primary"
@@ -118,7 +141,8 @@ export const Login = () => {
             </>
           )}
         </Button>
-      </form>
+        </motion.div>
+      </motion.form>
 
       <p className="mt-8 text-center text-sm text-text-secondary">
         Don't have an account?{' '}

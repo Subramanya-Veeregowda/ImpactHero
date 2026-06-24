@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Trophy, Activity, Heart, ArrowRight, Plus, Loader2 } from 'lucide-react';
 import { PageContainer } from '@/components/ui/PageContainer';
 import { StatCard } from '@/components/ui/StatCard';
@@ -12,6 +12,20 @@ import { useAuth } from '@/context/AuthContext';
 export const SubscriberDashboard = () => {
   const { user } = useAuth();
   const { data, isLoading, error } = useSubscriberDashboard();
+  const shouldReduceMotion = useReducedMotion();
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const staggerItem = {
+    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 10 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.3 } }
+  };
 
   if (isLoading) {
     return (
@@ -40,45 +54,65 @@ export const SubscriberDashboard = () => {
 
   return (
     <PageContainer>
-      <div className="flex justify-between items-end mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-text-primary mb-2">Welcome back, {user?.name}</h1>
-          <p className="text-text-secondary">Here's your latest impact and performance summary.</p>
+      <motion.div 
+        className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
+        <div className="w-full md:w-auto">
+          <motion.h1 variants={staggerItem} className="text-3xl font-bold text-text-primary mb-2">Welcome back, {user?.name}</motion.h1>
+          <motion.p variants={staggerItem} className="text-text-secondary">Here's your latest impact and performance summary.</motion.p>
         </div>
-        <Link to="/scores/add">
-          <Button variant="primary">
-            <Plus className="h-4 w-4 mr-2" />
-            Add Score
-          </Button>
-        </Link>
-      </div>
+        <motion.div variants={staggerItem} className="w-full md:w-auto mt-4 md:mt-0">
+          <Link to="/scores/add" className="block w-full">
+            <Button variant="primary" className="w-full md:w-auto justify-center">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Score
+            </Button>
+          </Link>
+        </motion.div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <StatCard
-          title="Subscription"
-          value={data?.subscription?.plan_type ? data.subscription.plan_type.charAt(0).toUpperCase() + data.subscription.plan_type.slice(1) : 'None'}
-          icon={<Activity className="h-5 w-5" />}
-          description={data?.subscription?.status === 'active' ? 'Active Subscription' : 'Inactive'}
-        />
-        <StatCard
-          title="Active Scores"
-          value={data?.scores.count || 0}
-          icon={<Trophy className="h-5 w-5" />}
-          description="Rolling 5-score limit"
-        />
-        <StatCard
-          title="Latest Score"
-          value={data?.scores.latest || '--'}
-          icon={<Activity className="h-5 w-5" />}
-          description={data?.scores.average ? `Avg: ${data.scores.average}` : 'No scores yet'}
-        />
-        <StatCard
-          title="Charity Impact"
-          value={data?.charity?.name ? 'Active' : 'Pending'}
-          icon={<Heart className="h-5 w-5" />}
-          description={data?.charity?.name || 'No charity selected'}
-        />
-      </div>
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.div variants={staggerItem}>
+          <StatCard
+            title="Subscription"
+            value={data?.subscription?.plan_type ? data.subscription.plan_type.charAt(0).toUpperCase() + data.subscription.plan_type.slice(1) : 'None'}
+            icon={<Activity className="h-5 w-5" />}
+            description={data?.subscription?.status === 'active' ? 'Active Subscription' : 'Inactive'}
+          />
+        </motion.div>
+        <motion.div variants={staggerItem}>
+          <StatCard
+            title="Active Scores"
+            value={data?.scores.count || 0}
+            icon={<Trophy className="h-5 w-5" />}
+            description="Rolling 5-score limit"
+          />
+        </motion.div>
+        <motion.div variants={staggerItem}>
+          <StatCard
+            title="Latest Score"
+            value={data?.scores.latest || '--'}
+            icon={<Activity className="h-5 w-5" />}
+            description={data?.scores.average ? `Avg: ${data.scores.average}` : 'No scores yet'}
+          />
+        </motion.div>
+        <motion.div variants={staggerItem}>
+          <StatCard
+            title="Charity Impact"
+            value={data?.charity?.name ? 'Active' : 'Pending'}
+            icon={<Heart className="h-5 w-5" />}
+            description={data?.charity?.name || 'No charity selected'}
+          />
+        </motion.div>
+      </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <motion.div
@@ -92,7 +126,7 @@ export const SubscriberDashboard = () => {
               <Heart className="h-5 w-5 text-accent-primary" />
             </div>
             {data?.charity ? (
-              <div className="flex-1 flex flex-col justify-center items-center text-center p-6 bg-surface-hover rounded-xl border border-white/5">
+              <div className="flex-1 flex flex-col justify-center items-center text-center p-6 bg-surface-secondary rounded-xl border border-white/5">
                 <Heart className="h-12 w-12 text-rose-500 mb-4 fill-rose-500/20" />
                 <h3 className="text-lg font-bold text-text-primary mb-2">{data.charity.name}</h3>
                 <p className="text-text-secondary mb-6 text-sm">
@@ -103,8 +137,8 @@ export const SubscriberDashboard = () => {
                 </Link>
               </div>
             ) : (
-              <div className="flex-1 flex flex-col justify-center items-center text-center p-6 bg-surface-hover rounded-xl border border-dashed border-white/10">
-                <div className="h-12 w-12 rounded-full bg-surface mb-4 flex items-center justify-center">
+              <div className="flex-1 flex flex-col justify-center items-center text-center p-6 bg-surface-secondary rounded-xl border border-dashed border-white/10">
+                <div className="h-12 w-12 rounded-full bg-canvas-elevated mb-4 flex items-center justify-center">
                   <Heart className="h-6 w-6 text-text-secondary" />
                 </div>
                 <h3 className="text-lg font-bold text-text-primary mb-2">No Charity Selected</h3>
@@ -135,14 +169,16 @@ export const SubscriberDashboard = () => {
             </div>
             
             <div className="flex-1">
-              {!data?.subscription ? (
+              {!data?.subscription || data.subscription.status !== 'active' ? (
                 <div className="text-center p-6">
                   <p className="text-text-secondary mb-4">You don't have an active subscription yet.</p>
-                  <Button variant="primary" fullWidth>View Plans</Button>
+                  <Link to="/upgrade">
+                    <Button variant="primary" className="w-full">View Plans</Button>
+                  </Link>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="p-4 bg-surface-hover rounded-lg border border-white/5 flex justify-between items-center">
+                  <div className="p-4 bg-surface-secondary rounded-lg border border-white/5 flex justify-between items-center">
                     <div>
                       <p className="text-sm text-text-secondary mb-1">Current Plan</p>
                       <p className="font-semibold text-text-primary capitalize">{data.subscription.plan_type} Tier</p>

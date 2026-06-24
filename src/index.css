@@ -1,20 +1,26 @@
 @import "tailwindcss";
 
 @theme {
-  --color-canvas-base: #191a1f;
-  --color-canvas-elevated: #282a2c;
-  --color-canvas-glass: rgba(40, 42, 44, 0.4);
+  --color-canvas-base: var(--canvas-base);
+  --color-canvas-elevated: var(--canvas-elevated);
+  --color-surface-primary: var(--surface-primary);
+  --color-surface-secondary: var(--surface-secondary);
   
-  --color-accent-primary: #8ab4f8;
-  --color-accent-hover: #aecbfa;
-  --color-accent-purple: #c58af9;
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-purple: var(--accent-purple);
   
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #9aa0a6;
-  --color-text-inverse: #191a1f;
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-inverse: var(--text-inverse);
   
-  --color-border-subtle: rgba(255, 255, 255, 0.1);
-  --color-border-focus: rgba(138, 180, 248, 0.5);
+  --color-border-subtle: var(--border-primary);
+  --color-border-focus: var(--border-focus);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
 
   --font-sans: 'Inter', system-ui, sans-serif;
   
@@ -23,6 +29,52 @@
 }
 
 @layer base {
+  :root {
+    --canvas-base: #f8fafc;
+    --canvas-elevated: #ffffff;
+    --surface-primary: rgba(255, 255, 255, 0.8);
+    --surface-secondary: #f1f5f9;
+    
+    --accent-primary: #8ab4f8;
+    --accent-hover: #aecbfa;
+    --accent-purple: #c58af9;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-inverse: #ffffff;
+    
+    --border-primary: rgba(0, 0, 0, 0.15);
+    --border-focus: rgba(138, 180, 248, 0.5);
+
+    --success: #16a34a;
+    --warning: #d97706;
+    --error: #dc2626;
+  }
+
+  .dark {
+    --canvas-base: #111827;
+    --canvas-elevated: #1f2937;
+    --surface-primary: rgba(31, 41, 55, 0.7);
+    --surface-secondary: #374151;
+    
+    --accent-primary: #8ab4f8;
+    --accent-hover: #aecbfa;
+    --accent-purple: #c58af9;
+    
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --text-inverse: #111827;
+    
+    --border-primary: rgba(255, 255, 255, 0.15);
+    --border-focus: rgba(138, 180, 248, 0.5);
+
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --error: #ef4444;
+  }
+
   html {
     background-color: var(--color-canvas-base);
     color: var(--color-text-primary);
@@ -31,7 +83,7 @@
 
 @layer utilities {
   .glass-panel {
-    @apply bg-canvas-glass backdrop-blur-xl border border-border-subtle shadow-glass rounded-2xl;
+    @apply bg-surface-primary backdrop-blur-xl border border-border-subtle shadow-glass rounded-2xl;
   }
   
   .text-gradient {

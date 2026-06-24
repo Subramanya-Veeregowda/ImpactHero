@@ -11,17 +11,13 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>('light');
-
-  useEffect(() => {
-    // Check local storage or system preference
-    const stored = localStorage.getItem('impacthero_theme') as Theme;
-    if (stored) {
-      setTheme(stored);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('impacthero_theme');
+      return stored === 'light' || stored === 'dark' ? stored : 'dark';
     }
-  }, []);
+    return 'dark';
+  });
 
   useEffect(() => {
     const root = window.document.documentElement;

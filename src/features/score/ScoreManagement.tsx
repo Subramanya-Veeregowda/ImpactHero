@@ -7,35 +7,51 @@ import { PageContainer } from '@/components/ui/PageContainer';
 import { Button } from '@/components/ui/Button';
 import { Plus } from 'lucide-react';
 import { useScores } from './useScores';
+import { useSubscriptionStatus } from '../subscription/useSubscriptionStatus';
 
 export const ScoreManagement = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { isLoading } = useScores();
+  const { isLoading: scoresLoading } = useScores();
+  const { isActive, isLoading: subLoading } = useSubscriptionStatus();
 
   // Open modal automatically if navigating from dashboard with "add" intent
   useEffect(() => {
-    if (location.pathname === '/scores/add') {
-      setIsAddModalOpen(true);
+    if (location.pathname === '/scores/add' && !subLoading) {
+      if (isActive) {
+        setIsAddModalOpen(true);
+      } else {
+        navigate('/upgrade');
+      }
       // Clean up the URL to prevent reopening on reload
       navigate('/scores', { replace: true });
     }
-  }, [location, navigate]);
+  }, [location, navigate, isActive, subLoading]);
+
+  const handleAddClick = () => {
+    if (isActive) {
+      setIsAddModalOpen(true);
+    } else {
+      navigate('/upgrade');
+    }
+  };
 
   return (
     <PageContainer>
-      <div className="flex justify-between items-end mb-8">
-        <div>
+      <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-8">
+        <div className="w-full md:w-auto">
           <h1 className="text-3xl font-bold text-text-primary mb-2">Score Management</h1>
           <p className="text-text-secondary max-w-2xl">
             Log your rounds to maintain your active pool of 5 scores. The oldest score will roll off automatically.
           </p>
         </div>
-        <Button variant="primary" onClick={() => setIsAddModalOpen(true)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Add Score
-        </Button>
+        <div className="w-full md:w-auto mt-4 md:mt-0">
+          <Button variant="primary" onClick={handleAddClick} disabled={subLoading} className="w-full md:w-auto justify-center">
+            <Plus className="h-4 w-4 mr-2" />
+            Add Score
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -53,7 +69,7 @@ export const ScoreManagement = () => {
         </div>
         
         <div className="lg:col-span-2">
-          {isLoading ? (
+          {scoresLoading ? (
             <div className="h-64 flex items-center justify-center border border-border-subtle rounded-xl">
               <div className="animate-pulse flex flex-col items-center">
                 <div className="h-8 w-8 bg-white/10 rounded-full mb-4"></div>

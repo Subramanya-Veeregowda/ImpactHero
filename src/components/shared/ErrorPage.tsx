@@ -27,7 +27,7 @@ export const ErrorPage = () => {
         <p className="text-gray-600 mb-6">{message}</p>
         <Link 
           to="/"
-          className="inline-flex items-center justify-center w-full bg-gray-900 text-white px-6 py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors"
+          className="inline-flex items-center justify-center w-full bg-gray-900 text-text-primary px-6 py-3 rounded-xl font-medium hover:bg-gray-800 transition-colors"
         >
           Return to Dashboard
         </Link>

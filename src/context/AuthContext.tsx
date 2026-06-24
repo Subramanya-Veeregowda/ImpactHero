@@ -78,19 +78,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // We will collect a generic password for demo, or you can implement Supabase Magic Links.
   // Let's use a dummy password for the demo to satisfy "email" only params in the UI.
   const login = async (email: string, password?: string) => {
-    setIsLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password: password || 'ImpactHero123!' // Fallback for any legacy tests
     });
     if (error) {
-      setIsLoading(false);
       throw error;
     }
   };
 
   const signup = async (email: string, password?: string, fullName?: string) => {
-    setIsLoading(true);
     const { error } = await supabase.auth.signUp({
       email,
       password: password || 'ImpactHero123!',
@@ -101,22 +98,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
     });
     if (error) {
-      setIsLoading(false);
       throw error;
     }
   };
 
   const forgotPassword = async (email: string) => {
-    setIsLoading(true);
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: window.location.origin + '/reset-password',
     });
-    setIsLoading(false);
     if (error) throw error;
   };
 
   const logout = async () => {
-    setIsLoading(true);
     await supabase.auth.signOut();
   };
 

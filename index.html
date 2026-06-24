@@ -7,6 +7,18 @@
     <title>impacthero-app</title>
   </head>
   <body>
+    <script>
+      (function() {
+        try {
+          var theme = localStorage.getItem('impacthero_theme');
+          if (!theme) {
+            theme = 'dark';
+            localStorage.setItem('impacthero_theme', theme);
+          }
+          document.documentElement.classList.add(theme);
+        } catch (e) {}
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

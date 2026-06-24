@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { HTMLMotionProps } from 'framer-motion';
 
 export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
@@ -10,13 +10,14 @@ export interface ButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className = '', variant = 'primary', size = 'md', fullWidth = false, children, ...props }, ref) => {
+    const shouldReduceMotion = useReducedMotion();
     
     const baseStyles = "inline-flex items-center justify-center font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-canvas-base disabled:opacity-50 disabled:cursor-not-allowed";
     
     const variants = {
       primary: "bg-gradient-ai font-semibold shadow-glow",
-      secondary: "glass-panel hover:bg-white/10 text-text-primary",
-      ghost: "bg-transparent hover:bg-white/5 text-text-secondary hover:text-text-primary",
+      secondary: "glass-panel hover:bg-black/5 dark:hover:bg-white/10 text-text-primary",
+      ghost: "bg-transparent hover:bg-black/5 dark:hover:bg-white/5 text-text-secondary hover:text-text-primary",
       danger: "bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
     };
 
@@ -29,8 +30,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
-        whileHover={props.disabled ? {} : { scale: 1.02 }}
-        whileTap={props.disabled ? {} : { scale: 0.98 }}
+        whileHover={props.disabled || shouldReduceMotion ? {} : { scale: 1.02 }}
+        whileTap={props.disabled || shouldReduceMotion ? {} : { scale: 0.98 }}
+        transition={{ duration: 0.2 }}
         className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
         {...props}
       >

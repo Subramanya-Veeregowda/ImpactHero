@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/services/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
@@ -7,6 +8,7 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Trophy, Upload, Download, Loader2, AlertCircle } from 'lucide-react';
+import { useSubscriptionStatus } from '../subscription/useSubscriptionStatus';
 
 interface Winner {
   id: string;
@@ -24,6 +26,8 @@ interface Winner {
 export const WinnerDashboard = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const { isActive, isLoading: subLoading } = useSubscriptionStatus();
   const [wins, setWins] = useState<Winner[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [uploadingId, setUploadingId] = useState<string | null>(null);
@@ -167,14 +171,27 @@ export const WinnerDashboard = () => {
                       <input
                         type="file"
                         accept="image/*,.pdf"
-                        onChange={(e) => handleFileUpload(e, win.id)}
+                        onChange={(e) => {
+                          if (isActive) {
+                            handleFileUpload(e, win.id)
+                          } else {
+                            e.preventDefault();
+                            navigate('/upgrade');
+                          }
+                        }}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
-                        disabled={uploadingId === win.id}
+                        disabled={uploadingId === win.id || subLoading}
+                        onClick={(e) => {
+                          if (!isActive && !subLoading) {
+                            e.preventDefault();
+                            navigate('/upgrade');
+                          }
+                        }}
                       />
                       <Button 
                         variant="primary" 
                         className="w-full"
-                        disabled={uploadingId === win.id}
+                        disabled={uploadingId === win.id || subLoading}
                       >
                         {uploadingId === win.id ? (
                           <Loader2 className="w-4 h-4 mr-2 animate-spin" />

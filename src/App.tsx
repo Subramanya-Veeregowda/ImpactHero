@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { ToastProvider } from '@/context/ToastContext';
+import { AppBootstrap } from '@/components/shared/AppBootstrap';
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary';
 import { ErrorPage } from '@/components/shared/ErrorPage';
 import { MainLayout } from '@/components/layout/MainLayout';
@@ -16,6 +17,9 @@ import { ScoreManagement } from '@/features/score/ScoreManagement';
 import { SubscriberDashboard } from '@/features/dashboard/SubscriberDashboard';
 import { CharitySelection } from '@/features/charity/CharitySelection';
 import { WinnerDashboard } from '@/features/winners/WinnerDashboard';
+import { SubscriptionManagement } from '@/features/subscription/SubscriptionManagement';
+import { CheckoutSuccess } from '@/features/subscription/CheckoutSuccess';
+import { CheckoutCancel } from '@/features/subscription/CheckoutCancel';
 
 import { AdminRoute } from '@/components/shared/AdminRoute';
 import { AdminLayout } from '@/components/layout/AdminLayout';
@@ -59,6 +63,18 @@ const router = createBrowserRouter([
           {
             path: 'winnings',
             element: <WinnerDashboard />
+          },
+          {
+            path: 'upgrade',
+            element: <SubscriptionManagement />
+          },
+          {
+            path: 'checkout/success',
+            element: <CheckoutSuccess />
+          },
+          {
+            path: 'checkout/cancel',
+            element: <CheckoutCancel />
           }
         ]
       },
@@ -117,7 +133,9 @@ function App() {
       <ThemeProvider>
         <ToastProvider>
           <AuthProvider>
-            <RouterProvider router={router} />
+            <AppBootstrap>
+              <RouterProvider router={router} />
+            </AppBootstrap>
           </AuthProvider>
         </ToastProvider>
       </ThemeProvider>

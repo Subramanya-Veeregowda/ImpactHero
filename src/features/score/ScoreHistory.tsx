@@ -1,11 +1,12 @@
 import { useScores } from './useScores';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Trophy, Clock, Trash2 } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
 export const ScoreHistory = () => {
   const { scores, clearScores } = useScores();
+  const shouldReduceMotion = useReducedMotion();
 
   return (
     <Card className="flex flex-col h-full min-h-[400px]">
@@ -24,9 +25,13 @@ export const ScoreHistory = () => {
 
       {scores.length === 0 ? (
         <div className="flex-grow flex flex-col items-center justify-center text-center py-12">
-          <div className="bg-white/5 p-4 rounded-full mb-4 ring-1 ring-border-subtle">
+          <motion.div 
+            animate={shouldReduceMotion ? {} : { y: [0, -6, 0] }}
+            transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+            className="bg-white/5 p-4 rounded-full mb-4 ring-1 ring-border-subtle"
+          >
             <Trophy className="w-8 h-8 text-text-secondary" />
-          </div>
+          </motion.div>
           <h3 className="text-lg font-medium text-text-primary mb-1">No scores yet</h3>
           <p className="text-text-secondary max-w-xs">
             Log your first score to start participating in the monthly impact draws.
