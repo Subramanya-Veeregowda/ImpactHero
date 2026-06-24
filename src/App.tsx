@@ -10,6 +10,7 @@ import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
 import { PublicRoute } from '@/components/shared/PublicRoute';
 import { Login } from '@/features/auth/Login';
 import { Signup } from '@/features/auth/Signup';
+import { ForgotPassword } from '@/features/auth/ForgotPassword';
 import { ScoreManagement } from '@/features/score/ScoreManagement';
 
 // Use createBrowserRouter for data router API support (errorElement)
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
         children: [
           { path: '/login', element: <Login /> },
           { path: '/signup', element: <Signup /> },
+          { path: '/forgot-password', element: <ForgotPassword /> },
         ]
       }
     ]
