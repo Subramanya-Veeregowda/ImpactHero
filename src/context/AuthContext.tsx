@@ -12,9 +12,10 @@ type User = {
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
-  login: (email: string) => Promise<void>;
-  signup: (email: string) => Promise<void>;
+  login: (email: string, password?: string) => Promise<void>;
+  signup: (email: string, password?: string, fullName?: string) => Promise<void>;
   logout: () => Promise<void>;
+  forgotPassword: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -76,11 +77,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // In a real app with pure email signup, you either use magic links or collect a password.
   // We will collect a generic password for demo, or you can implement Supabase Magic Links.
   // Let's use a dummy password for the demo to satisfy "email" only params in the UI.
-  const login = async (email: string) => {
+  const login = async (email: string, password?: string) => {
     setIsLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
       email,
-      password: 'ImpactHero123!' // Dummy password since original UI only asked for email
+      password: password || 'ImpactHero123!' // Fallback for any legacy tests
     });
     if (error) {
       setIsLoading(false);
@@ -88,14 +89,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const signup = async (email: string) => {
+  const signup = async (email: string, password?: string, fullName?: string) => {
     setIsLoading(true);
     const { error } = await supabase.auth.signUp({
       email,
-      password: 'ImpactHero123!',
+      password: password || 'ImpactHero123!',
       options: {
         data: {
-          full_name: email.split('@')[0]
+          full_name: fullName || email.split('@')[0]
         }
       }
     });
@@ -105,13 +106,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const forgotPassword = async (email: string) => {
+    setIsLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/reset-password',
+    });
+    setIsLoading(false);
+    if (error) throw error;
+  };
+
   const logout = async () => {
     setIsLoading(true);
     await supabase.auth.signOut();
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, signup, logout, forgotPassword }}>
       {children}
     </AuthContext.Provider>
   );
