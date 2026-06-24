@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas-base: #191a1f;
+  --color-canvas-elevated: #282a2c;
+  --color-canvas-glass: rgba(40, 42, 44, 0.4);
+  
+  --color-accent-primary: #8ab4f8;
+  --color-accent-hover: #aecbfa;
+  --color-accent-purple: #c58af9;
+  
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9aa0a6;
+  --color-text-inverse: #191a1f;
+  
+  --color-border-subtle: rgba(255, 255, 255, 0.1);
+  --color-border-focus: rgba(138, 180, 248, 0.5);
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --shadow-glow: 0 0 20px rgba(138, 180, 248, 0.2);
+}
+
+@layer base {
+  html {
+    background-color: var(--color-canvas-base);
+    color: var(--color-text-primary);
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-canvas-glass backdrop-blur-xl border border-border-subtle shadow-glass rounded-2xl;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent-primary to-accent-purple;
+  }
+
+  .bg-gradient-ai {
+    @apply bg-gradient-to-r from-accent-primary to-accent-purple text-text-inverse border-none hover:opacity-90 transition-opacity;
+  }
+}
