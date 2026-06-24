@@ -16,6 +16,13 @@ import { ScoreManagement } from '@/features/score/ScoreManagement';
 import { SubscriberDashboard } from '@/features/dashboard/SubscriberDashboard';
 import { CharitySelection } from '@/features/charity/CharitySelection';
 
+import { AdminRoute } from '@/components/shared/AdminRoute';
+import { AdminLayout } from '@/components/layout/AdminLayout';
+import { AdminDashboard } from '@/features/admin/AdminDashboard';
+import { UserManagement } from '@/features/admin/UserManagement';
+import { CharityManagement } from '@/features/admin/CharityManagement';
+import { DrawManagement } from '@/features/admin/DrawManagement';
+
 // Use createBrowserRouter for data router API support (errorElement)
 const router = createBrowserRouter([
   {
@@ -46,6 +53,33 @@ const router = createBrowserRouter([
           {
             path: 'charities',
             element: <CharitySelection />
+          }
+        ]
+      },
+      {
+        path: '/admin',
+        element: <AdminRoute />,
+        children: [
+          {
+            element: <AdminLayout />,
+            children: [
+              {
+                index: true,
+                element: <AdminDashboard />
+              },
+              {
+                path: 'users',
+                element: <UserManagement />
+              },
+              {
+                path: 'charities',
+                element: <CharityManagement />
+              },
+              {
+                path: 'draws',
+                element: <DrawManagement />
+              }
+            ]
           }
         ]
       }
