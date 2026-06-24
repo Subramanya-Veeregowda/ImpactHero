@@ -28,6 +28,7 @@ export const MainLayout = () => {
               <Link to="/dashboard" className="text-text-secondary hover:text-text-primary transition-colors">Dashboard</Link>
               <Link to="/scores" className="text-text-secondary hover:text-text-primary transition-colors">Scores</Link>
               <Link to="/charities" className="text-text-secondary hover:text-text-primary transition-colors">Charities</Link>
+              <Link to="/winnings" className="text-text-secondary hover:text-text-primary transition-colors">Winnings</Link>
               {user.role === 'admin' && (
                 <Link to="/admin" className="text-accent-primary hover:text-accent-hover transition-colors">Admin Portal</Link>
               )}
