@@ -1,5 +1,4 @@
-<div align="center">
-  <img src="https://raw.githubusercontent.com/Subramanya-Veeregowda/ImpactHero/main/src/assets/hero.png" alt="ImpactHero Logo" width="200" style="border-radius: 20px; margin-bottom: 20px;" />
+
   
   <h1>ImpactHero</h1>
   <p><em>The Next-Generation Golf Charity Subscription Platform</em></p>
@@ -26,61 +25,61 @@
     <a href="#production-url-placeholder">Production URL</a> •
     <a href="#installation--setup">Setup Guide</a>
   </p>
-</div>
+
 
 ---
 
-## 📖 Overview
+##  Overview
 **ImpactHero** is an innovative subscription-based platform that gamifies golf performance by linking player scores to charitable donations. Subscribers enter their golf scores, which are entered into a proprietary, provably fair draw system to win prizes, all while generating vital recurring revenue for their selected partner charities.
 
-## ⚠️ Problem Statement
+##  Problem Statement
 Many charitable organizations struggle to maintain consistent, predictable, and recurring donation streams. Simultaneously, amateur golfers lack engaging incentives to systematically track their performance and participate in charitable efforts seamlessly during their everyday play.
 
-## 🎯 Purpose
+##  Purpose
 ImpactHero bridges this gap by turning the game of golf into a vehicle for social good. By creating a compelling, gamified loop that rewards subscribers for playing golf, ImpactHero naturally drives consistent monthly charitable contributions. 
 
-## 💼 Business Use Case
+##  Business Use Case
 - **For Charities:** Provides an alternative, low-friction, recurring revenue funnel.
 - **For the Platform:** Sustained via a clear subscription model where a portion of the monthly fee is allocated to overhead/prize pools and the remainder flows to the charities.
 - **For Golfers:** Enhances the traditional game by adding layers of rewards, statistics tracking, and philanthropic impact.
 
-## 👥 Target Users
+##  Target Users
 1. **Amateur Golfers:** Individuals who play regularly and are looking to add competitive stakes and charity to their routine.
 2. **Charity Organizations:** Non-profits looking for modern, gamified fundraising channels.
 3. **Platform Administrators:** Internal operators who manage draws, verify winner proofs, and oversee charity onboarding.
 
 ---
 
-## ✨ Core Features
+##  Core Features
 
-### 🛠️ Admin Dashboard Features
+###  Admin Dashboard Features
 - Comprehensive oversight of active subscriptions and overall platform health.
 - Charity management (onboarding, approval, metrics).
 - Manual trigger and oversight of the randomized Draw Engine.
 - Winner verification workflow (approving or rejecting user-uploaded scorecards).
 
-### 🏌️ Subscriber Features
+###  Subscriber Features
 - Secure authentication and profile management.
 - Dynamic subscription tier selection.
 - Golf score tracking with a strictly enforced **rolling 5-score limit**.
 - Real-time updates on active draws and prize winnings.
 - Secure scorecard image uploads for winning claim verification.
 
-### 🤝 Charity Management Features
+###  Charity Management Features
 - Public charity directory with visibility into total funds raised.
 - Admin-controlled listing and categorization of active charity partners.
 
-### 🏆 Winner Verification System
+###  Winner Verification System
 - Secure cloud storage bucket for proof (scorecard/photo) uploads.
 - Strict Row Level Security (RLS) guaranteeing users can only upload and view their own proofs.
 - Admin portal to cross-reference proofs against the winning draw conditions.
 
-### 🎲 Draw Engine Overview
+###  Draw Engine Overview
 A custom, secure backend engine that generates randomized winning criteria. The engine evaluates all eligible active scores against the generated criteria to identify winners automatically, placing their claims into a `pending` verification state.
 
 ---
 
-## 💻 Tech Stack
+##  Tech Stack
 
 | Layer | Technology | Purpose |
 | :--- | :--- | :--- |
@@ -94,7 +93,7 @@ A custom, secure backend engine that generates randomized winning criteria. The 
 
 ---
 
-## 🏗️ Architecture Overview
+##  Architecture Overview
 ImpactHero is built on a modern **Serverless/BaaS Architecture**:
 1. **Client-Side SPA:** A React application served globally via Vercel Edge networks. State is managed locally using context providers for Auth, Theme, and Toasts.
 2. **API Layer:** Supabase's PostgREST automatically exposes secure RESTful APIs based on the underlying PostgreSQL schema.
@@ -103,7 +102,7 @@ ImpactHero is built on a modern **Serverless/BaaS Architecture**:
 
 ---
 
-## 🗄️ Database Overview (Supabase + PostgreSQL)
+##  Database Overview (Supabase + PostgreSQL)
 The schema is rigorously structured using Supabase PostgreSQL:
 - **`profiles`**: Extended user metadata tied to Supabase Auth.
 - **`scores`**: Tracks golf performance. Constrained by a rolling 5-score trigger and unique date limitations to prevent duplicate entries.
@@ -114,14 +113,14 @@ The schema is rigorously structured using Supabase PostgreSQL:
 
 ---
 
-## 🔒 Authentication & Security
+##  Authentication & Security
 - **Authentication:** Powered by Supabase Auth (Email/Password), with built-in rate-limiting and session management.
 - **Row Level Security (RLS):** Every table enforces strict `SELECT`, `INSERT`, `UPDATE`, and `DELETE` policies.
 - **Storage Policies:** The `winner_proofs` bucket restricts users to their specific `auth.uid()` directory to prevent data exfiltration or tampering.
 
 ---
 
-## 📂 Folder Structure
+##  Folder Structure
 
 \`\`\`text
 ImpactHero/
@@ -142,7 +141,7 @@ ImpactHero/
 
 ---
 
-## 🚀 Installation & Setup
+##  Installation & Setup
 
 1. **Clone the repository:**
    \`\`\`bash
@@ -165,7 +164,7 @@ ImpactHero/
 
 ---
 
-## 🔑 Environment Variables
+##  Environment Variables
 You must provide the following variables in a local `.env` file to connect to Supabase:
 
 \`\`\`env
@@ -176,7 +175,7 @@ VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 ---
 
-## 📜 Available Scripts
+##  Available Scripts
 - `npm run dev` - Starts the Vite development server.
 - `npm run build` - Compiles TypeScript and creates a production-ready bundle.
 - `npm run lint` - Runs ESLint to catch potential issues.
@@ -184,7 +183,7 @@ VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 ---
 
-## 📦 Build Instructions
+##  Build Instructions
 To build the application for production, simply run:
 \`\`\`bash
 npm run build
@@ -193,7 +192,7 @@ This will output optimized static files into the `dist/` directory, ready to be 
 
 ---
 
-## 🌍 Deployment Instructions
+##  Deployment Instructions
 ImpactHero is fully optimized for **Vercel** deployment:
 1. Connect your GitHub repository to Vercel.
 2. Vercel will automatically detect the **Vite** framework.
@@ -202,7 +201,7 @@ ImpactHero is fully optimized for **Vercel** deployment:
 
 ---
 
-## 🗺️ Future Roadmap
+##  Future Roadmap
 - [ ] Integration with Stripe for seamless subscription billing.
 - [ ] PWA & Mobile Optimization for playing on the course.
 - [ ] Advanced Charity Dashboard portal for direct partner access.
@@ -210,13 +209,13 @@ ImpactHero is fully optimized for **Vercel** deployment:
 
 ---
 
-## 👨‍💻 Author Section
+##  Author Section
 **Developed by:** Subramanya Veeregowda  
 *Passionate about building scalable web applications for social good.*
 
 ---
 
-## 🔗 Social Links
+##  Social Links
 - [GitHub](https://github.com/Subramanya-Veeregowda)
 - [LinkedIn](#)
 - [Twitter / X](#)
