@@ -37,6 +37,10 @@ const router = createBrowserRouter([
           {
             path: 'scores',
             element: <ScoreManagement />
+          },
+          {
+            path: 'scores/add',
+            element: <ScoreManagement />
           }
         ]
       }
