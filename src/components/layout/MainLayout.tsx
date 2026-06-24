@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
@@ -23,17 +23,27 @@ export const MainLayout = () => {
         <h1 className="text-xl font-bold tracking-tight text-gradient">ImpactHero</h1>
         
         {user && (
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-text-secondary font-medium">
-              {user.name} {user.role === 'admin' && '(Admin)'}
-            </span>
-            <button
-              onClick={handleLogout}
-              className="p-2 text-text-secondary hover:text-text-primary hover:bg-white/10 rounded-lg transition-colors"
-              title="Logout"
-            >
-              <LogOut className="w-5 h-5" />
-            </button>
+          <div className="flex items-center gap-6">
+            <nav className="hidden md:flex items-center gap-4 text-sm font-medium">
+              <Link to="/dashboard" className="text-text-secondary hover:text-text-primary transition-colors">Dashboard</Link>
+              <Link to="/scores" className="text-text-secondary hover:text-text-primary transition-colors">Scores</Link>
+              <Link to="/charities" className="text-text-secondary hover:text-text-primary transition-colors">Charities</Link>
+              {user.role === 'admin' && (
+                <Link to="/admin" className="text-accent-primary hover:text-accent-hover transition-colors">Admin Portal</Link>
+              )}
+            </nav>
+            <div className="flex items-center gap-4 border-l border-white/10 pl-6">
+              <span className="text-sm text-text-secondary font-medium">
+                {user.name} {user.role === 'admin' && '(Admin)'}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="p-2 text-text-secondary hover:text-text-primary hover:bg-white/10 rounded-lg transition-colors"
+                title="Logout"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
+            </div>
           </div>
         )}
       </header>

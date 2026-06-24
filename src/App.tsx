@@ -13,6 +13,8 @@ import { Signup } from '@/features/auth/Signup';
 import { ForgotPassword } from '@/features/auth/ForgotPassword';
 import { ScoreManagement } from '@/features/score/ScoreManagement';
 
+import { SubscriberDashboard } from '@/features/dashboard/SubscriberDashboard';
+
 // Use createBrowserRouter for data router API support (errorElement)
 const router = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
+            element: <SubscriberDashboard />
+          },
+          {
+            path: 'dashboard',
+            element: <SubscriberDashboard />
+          },
+          {
+            path: 'scores',
             element: <ScoreManagement />
           }
         ]
