@@ -14,6 +14,7 @@ import { ForgotPassword } from '@/features/auth/ForgotPassword';
 import { ScoreManagement } from '@/features/score/ScoreManagement';
 
 import { SubscriberDashboard } from '@/features/dashboard/SubscriberDashboard';
+import { CharitySelection } from '@/features/charity/CharitySelection';
 
 // Use createBrowserRouter for data router API support (errorElement)
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           {
             path: 'scores/add',
             element: <ScoreManagement />
+          },
+          {
+            path: 'charities',
+            element: <CharitySelection />
           }
         ]
       }
